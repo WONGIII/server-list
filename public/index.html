@@ -337,22 +337,11 @@
             border-color: rgba(100, 180, 255, 0.3);
         }
         
-        .badge-cn {
-            background: rgba(200, 100, 40, 0.3);
-            color: #ffd0a0;
-            border-color: rgba(255, 160, 80, 0.3);
-        }
-        
-        .badge-na {
-            background: rgba(40, 80, 160, 0.3);
-            color: #a0c0ff;
-            border-color: rgba(80, 120, 200, 0.3);
-        }
-        
-        .badge-eu {
-            background: rgba(40, 60, 140, 0.3);
-            color: #a0b0ff;
-            border-color: rgba(80, 100, 180, 0.3);
+        /* 通用区域标签样式 */
+        .badge-region {
+            background: rgba(100, 100, 150, 0.3);
+            color: #d0d0ff;
+            border-color: rgba(150, 150, 200, 0.3);
         }
         
         .card-body {
@@ -707,13 +696,6 @@
             'Starting': { label: '启动中', color: '#4080ff', class: 'waiting', dotClass: 'waiting' }
         };
         
-        // 区域配置
-        const regionConfig = {
-            'CN': { label: '中国', class: 'badge-cn' },
-            'NA': { label: '北美', class: 'badge-na' },
-            'EU': { label: '欧洲', class: 'badge-eu' }
-        };
-        
         // 模式配置
         const modeConfig = {
             'PVP': { class: 'badge-pvp' },
@@ -721,6 +703,17 @@
             'RUSH PVP': { class: 'badge-rush-pvp' },
             'RUSH PVE': { class: 'badge-rush-pve' }
         };
+
+        // 根据区域值返回对应的样式类
+        function getRegionClass(region) {
+            // 如果区域是标准的两字母代码，可以用自定义样式
+            // 否则使用通用的 badge-region 样式
+            const upperRegion = region.toUpperCase();
+            if (['CN', 'NA', 'EU', 'HK', 'TW', 'JP', 'KR', 'SG'].includes(upperRegion)) {
+                return 'badge-region';
+            }
+            return 'badge-region';
+        }
 
         function formatTimeAgo(timestamp) {
             const seconds = Math.floor((Date.now() - timestamp) / 1000);
@@ -743,7 +736,11 @@
             const fillPercent = Math.min((server.playerCount / maxPlayers) * 100, 100);
             const timeAgo = formatTimeAgo(server.lastHeartbeat);
             
-            const region = regionConfig[server.region] || { label: server.region, class: 'badge-cn' };
+            // 直接使用原始区域值
+            const region = server.region || '??';
+            const regionClass = getRegionClass(region);
+            
+            // 获取模式样式
             const mode = modeConfig[server.mode] || { class: 'badge-pve' };
             
             return `
@@ -752,7 +749,7 @@
                         <span class="server-name">${server.name}</span>
                         <div class="badge-container">
                             <span class="server-badge ${mode.class}">${server.mode}</span>
-                            <span class="server-badge ${region.class}">${region.label}</span>
+                            <span class="server-badge ${regionClass}">${region}</span>
                         </div>
                     </div>
                     
