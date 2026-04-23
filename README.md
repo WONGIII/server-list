@@ -9,6 +9,10 @@
 ![SQLite](https://img.shields.io/badge/SQLite-3-blue)
 ![License](https://img.shields.io/badge/license-MIT-orange)
 
+> **⚠️ 适配提醒**
+> 
+> 当前未适配[ProjectRebound Backend API Spec v2](https://github.com/STanJK/ProjectRebound/blob/main/docs/backend-api-spec-v2.md#projectrebound-backend-api-spec-v2)
+
 ---
 
 ## ✨ 特性
